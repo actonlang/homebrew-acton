@@ -1,5 +1,7 @@
 # Acton
 
+This is the Homebrew formula for the Acton programming language.
+
 ## How do I install these formulae?
 
 `brew install actonlang/acton/<formula>`
