@@ -1,10 +1,10 @@
 class Acton < Formula
-  desc "The Acton Programming Language"
+  desc "Awesome Programming Language"
   homepage "https://acton-lang.org"
   url "https://github.com/actonlang/acton/archive/refs/tags/v0.5.2.tar.gz"
   sha256 "5ccc7244857e6aa461f65560ed06ada768521b37b22d20843839593336415577"
-  head "https://github.com/actonlang/acton.git", branch: "brew"
   license "BSD-3-Clause"
+  head "https://github.com/actonlang/acton.git", branch: "brew"
 
   depends_on "argp-standalone" => :build
   depends_on "ghc" => :build
