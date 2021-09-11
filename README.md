@@ -1,4 +1,4 @@
-# Actonlang Acton
+# Acton
 
 ## How do I install these formulae?
 
