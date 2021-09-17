@@ -23,6 +23,10 @@ class Acton < Formula
     depends_on "argp-standalone" => :build
   end
 
+  on_linux do
+    depends_on "libbsd" => :build
+  end
+
   def install
     ENV.deparallelize
     system "make"
