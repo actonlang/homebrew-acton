@@ -1,8 +1,8 @@
 class Acton < Formula
   desc "Awesome Programming Language"
   homepage "http://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.5.3.tar.gz"
-  sha256 "888cc6a8ecca5eeb3e144f64006ad9ea52a358312576c632c73280c483ffa8b6"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.6.0.tar.gz"
+  sha256 "aeacfe6ca13d8a7d8f41fddc944e3ca421448c9ebe68b3d10772664430a9b0ef"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
 
