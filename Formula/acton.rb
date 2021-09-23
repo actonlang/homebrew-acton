@@ -24,6 +24,7 @@ class Acton < Formula
   end
 
   on_linux do
+    depends_on "gmp"
     depends_on "libbsd" => :build
   end
 
