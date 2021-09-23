@@ -8,8 +8,10 @@ class Acton < Formula
 
   bottle do
     root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.6.0"
-    sha256 cellar: :any, big_sur:  "654320bf38d4f43670ea49a064acec825f06d4fcf0df9cbed90a78cef0e72d93"
-    sha256 cellar: :any, catalina: "bbc2454ec407628b55350c502066a1dc21502d4aa623294dbc299336e2f24b21"
+    rebuild 1
+    sha256 cellar: :any,                 big_sur:      "15be473e4d4aecd06792284223b21884bc727a5d08b9394f4f4b801296c3d3af"
+    sha256 cellar: :any,                 catalina:     "db6c30fd205ca0976e619e9cc3d0926c31cd0d42972225a01090cdd2a35ae424"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "b772f5517ff96c067dec7e66187d77b49f15834b7fae42afdd102093c0f41dbb"
   end
 
   depends_on "ghc" => :build
