@@ -7,11 +7,10 @@ class Acton < Formula
   head "https://github.com/actonlang/acton.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.6.0"
-    rebuild 1
-    sha256 cellar: :any,                 big_sur:      "15be473e4d4aecd06792284223b21884bc727a5d08b9394f4f4b801296c3d3af"
-    sha256 cellar: :any,                 catalina:     "db6c30fd205ca0976e619e9cc3d0926c31cd0d42972225a01090cdd2a35ae424"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "b772f5517ff96c067dec7e66187d77b49f15834b7fae42afdd102093c0f41dbb"
+    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.6.2"
+    sha256 cellar: :any,                 big_sur:      "b8d6e5879da4194c6b05d47422a9bbe2c3e594c4d85572bfb1f4b7518b4ef1cf"
+    sha256 cellar: :any,                 catalina:     "6f18f86a51d0a7e40bda9bd1541027648977682895b341cafe4b0253c81ad5e2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "672073caf77307660327163f2db22df28bf07eb9ca6f00951fe61ac0c951e7a9"
   end
 
   depends_on "ghc" => :build
