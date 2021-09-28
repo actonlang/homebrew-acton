@@ -1,0 +1,27 @@
+# This workflow is triggered when the test workflow completes successfully, so
+# we can tack on the pr-pull label which in turn will trigger the publish
+# workflow.
+name: Merge successfull test job PRs
+on:
+  workflow_run:
+    workflows: ["test"]
+    types: [completed]
+
+jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Find Pull Request
+        uses: juliangruber/find-pull-request-action@v1
+        id: find-pull-request
+        with:
+          branch: ${{ github.event.workflow_run.head_branch }}
+      - run: echo "Pull Request ${number} (${sha})"
+        env:
+          number: ${{ steps.find-pull-request.outputs.number }}
+          sha: ${{ steps.find-pull-request.outputs.head-sha }}
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: pr-pull
+          number: ${{ steps.find-pull-request.outputs.number }}
