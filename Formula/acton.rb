@@ -31,6 +31,7 @@ class Acton < Formula
   end
 
   def install
+    ENV["BUILD_RELEASE"] = "1"
     ENV.deparallelize
     system "make"
     bin.install "dist/bin/actonc"
