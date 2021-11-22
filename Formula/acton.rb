@@ -1,5 +1,5 @@
 class Acton < Formula
-  desc "Awesome Programming Language"
+  desc "Safe actor-based programming language"
   homepage "https://www.acton-lang.org"
   url "https://github.com/actonlang/acton/archive/refs/tags/v0.7.0.tar.gz"
   sha256 "a5abfa27f9dc04ca147515cee1431366fe8ff57fa0dc99d81589a701d8fffe69"
