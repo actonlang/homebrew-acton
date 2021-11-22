@@ -16,9 +16,9 @@ class Acton < Formula
 
   depends_on "ghc" => :build
   depends_on "haskell-stack" => :build
-  depends_on "utf8proc" => :build
 
   depends_on "protobuf-c"
+  depends_on "utf8proc"
   depends_on "util-linux"
 
   on_macos do
