@@ -14,7 +14,6 @@ class Acton < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "27b8c348cae783b8ad5bbb31d379ad6eea3d2e377e7c50db23a68afba2f5f8b3"
   end
 
-  depends_on "ghc" => :build
   depends_on "haskell-stack" => :build
 
   depends_on "protobuf-c"
