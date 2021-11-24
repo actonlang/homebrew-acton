@@ -1,5 +1,5 @@
 class Acton < Formula
-  desc "Awesome Programming Language"
+  desc "Safe actor-based programming language"
   homepage "https://www.acton-lang.org"
   url "https://github.com/actonlang/acton/archive/refs/tags/v0.7.1.tar.gz"
   sha256 "e58487e8c5b17a669080714a2b9940e02f2e26c86e7a549b0fdcbde92ea866ae"
@@ -38,13 +38,13 @@ class Acton < Formula
   end
 
   test do
-    # For Homebrew/homebrew-core this will need to be a test that verifies the
-    # functionality of the software. Run the test with `brew test acton`.
-    # Options passed to `brew install` such as `--HEAD` also need to be
-    # provided to `brew test`.
-    #
-    # The installed folder is not in the path, so use the entire path to any
-    # executables being tested: `system "#{bin}/program", "do", "something"`.
-    system "true"
+    system "#{bin}/actonc", "--version"
+    (testpath/"hello.act").write <<~EOS
+      actor main(env):
+          print("Hello World!")
+          await async env.exit(0)
+    EOS
+    system "#{bin}/actonc", "--root", "main", "hello.act"
+    assert_equal "Hello World!\n", `./hello`
   end
 end
