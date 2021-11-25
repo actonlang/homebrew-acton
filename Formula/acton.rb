@@ -24,9 +24,9 @@ class Acton < Formula
   end
 
   on_linux do
+    depends_on "libbsd" => :build
     depends_on "gcc"
     depends_on "gmp"
-    depends_on "libbsd" => :build
   end
 
   def install
@@ -45,6 +45,6 @@ class Acton < Formula
           await async env.exit(0)
     EOS
     system "#{bin}/actonc", "--root", "main", "hello.act"
-    assert_equal "Hello World!\n", `./hello`
+    assert_equal "Hello World!\n", shell_output("./hello")
   end
 end
