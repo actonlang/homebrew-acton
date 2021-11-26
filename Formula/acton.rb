@@ -13,6 +13,7 @@ class Acton < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "8182bd70952c8a817ec2749f2eaf3ceb12cfadaae7a2668fb78439ccffe85960"
   end
 
+  depends_on "ghc" => :build
   depends_on "haskell-stack" => :build
 
   depends_on "protobuf-c"
@@ -30,6 +31,13 @@ class Acton < Formula
   end
 
   def install
+    # Fix up stack config to not install project local GHC
+    inreplace "compiler/stack.yaml", "# system-ghc: true", <<~EOS
+      system-ghc: true
+      install-ghc: false
+      allow-newer: true
+    EOS
+
     ENV["BUILD_RELEASE"] = "1"
     system "make"
     bin.install "dist/bin/actonc"
