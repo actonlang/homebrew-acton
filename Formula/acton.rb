@@ -1,8 +1,8 @@
 class Acton < Formula
   desc "Safe actor-based programming language"
   homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.7.1.tar.gz"
-  sha256 "e58487e8c5b17a669080714a2b9940e02f2e26c86e7a549b0fdcbde92ea866ae"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.9.1.tar.gz"
+  sha256 "2fe352838d8cdc5d84b1f8f4712d46c900614656dd8edfc13256823004012a28"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
 
