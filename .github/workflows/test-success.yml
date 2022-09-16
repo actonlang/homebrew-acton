@@ -23,6 +23,5 @@ jobs:
           sha: ${{ steps.find-pull-request.outputs.head-sha }}
       - uses: actions-ecosystem/action-add-labels@v1
         with:
-          github_token: ${{ secrets.ACTBOT_PAT }}
           labels: pr-pull
           number: ${{ steps.find-pull-request.outputs.number }}
