@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test-bot:
+  build-bottles:
     strategy:
       fail-fast: false
       matrix:
@@ -47,6 +47,7 @@ jobs:
 
   pr-pull:
     if: github.event_name == 'pull_request'
+    needs: build-bottles
     runs-on: ubuntu-latest
     steps:
       - name: Set up Homebrew
