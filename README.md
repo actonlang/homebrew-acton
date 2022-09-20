@@ -2,12 +2,10 @@
 
 This is the Homebrew formula for the Acton programming language.
 
-## How do I install these formulae?
+## How do I install Acton using this?
 
-`brew install actonlang/acton/<formula>`
+`brew install actonlang/acton/acton`
 
-Or `brew tap actonlang/acton` and then `brew install <formula>`.
-
-## Documentation
-
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
+Or:
+- `brew tap actonlang/acton`
+- `brew install acton`.
