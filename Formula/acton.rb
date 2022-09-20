@@ -1,18 +1,10 @@
 class Acton < Formula
-  desc "Delightful distributed programming language for fault-tolerant systems"
+  desc "Delightful distributed programming language"
   homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.11.5.tar.gz"
-  sha256 "a7f4bb269143fdb5480eb04ddb9d55e86a6a33b8eea5c24dcbd7fdd3a1f3dbdc"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.11.6.tar.gz"
+  sha256 "028cd83698d136377c27a73e116e52c35c486943efca733fc7e92e85ec199c57"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.11.5"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, monterey:     "b1d7c20568532d974f3d986526d397f2bd533502583dfb8b3d4b3a6403d506a9"
-    sha256 cellar: :any_skip_relocation, big_sur:      "044bda847fec76967f16b13769573adbfb5008f35b5dfd771d55b561920cfd8e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "5030cf455c295d31b3bc2560903430cb7b18d03dc365aa1ef20b5f9a2a3e32ad"
-  end
 
   depends_on "ghc@8.10" => :build
   depends_on "haskell-stack" => :build
