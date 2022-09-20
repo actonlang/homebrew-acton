@@ -1,25 +1,17 @@
 class Acton < Formula
-  desc "Safe actor-based programming language"
+  desc "Delightful distributed programming language"
   homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.7.1.tar.gz"
-  sha256 "e58487e8c5b17a669080714a2b9940e02f2e26c86e7a549b0fdcbde92ea866ae"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.11.5.tar.gz"
+  sha256 "a7f4bb269143fdb5480eb04ddb9d55e86a6a33b8eea5c24dcbd7fdd3a1f3dbdc"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
 
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.7.1"
-    rebuild 1
-    sha256 cellar: :any,                 big_sur:      "b3ae40cf04940dafefc0d26794838c33acc8b1ba6e0e3590eb61fb830164b205"
-    sha256 cellar: :any,                 catalina:     "6337dec913568b38985032b62206a122416b922549ab427e9cf4202cf2e0db04"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "e434dc6f405a8587ba7c25d44211f6f4e1c448e4bbeb2e2994a2ce3ab23b6bcd"
-  end
-
-  depends_on "ghc" => :build
+  depends_on "ghc@8.10" => :build
   depends_on "haskell-stack" => :build
-
-  depends_on "protobuf-c"
-  depends_on "utf8proc"
-  depends_on "util-linux"
+  depends_on "libuv" => :build
+  depends_on "pkg-config" => :build
+  depends_on "protobuf-c" => :build
+  depends_on "utf8proc" => :build
 
   on_macos do
     depends_on "argp-standalone" => :build
@@ -29,6 +21,7 @@ class Acton < Formula
     depends_on "libbsd" => :build
     depends_on "gcc"
     depends_on "gmp"
+    depends_on "util-linux"
   end
 
   def install
@@ -43,17 +36,19 @@ class Acton < Formula
     system "make"
     bin.install "dist/bin/actonc"
     bin.install "dist/bin/actondb"
+    bin.install "dist/bin/runacton"
     prefix.install Dir["dist/*"]
   end
 
   test do
-    system "#{bin}/actonc", "--version"
-    (testpath/"hello.act").write <<~EOS
+    testapp = (testpath/"hello.act")
+    testapp.write <<~EOS
+      #!/usr/bin/env runacton
       actor main(env):
           print("Hello World!")
           await async env.exit(0)
     EOS
-    system "#{bin}/actonc", "--root", "main", "hello.act"
-    assert_equal "Hello World!\n", shell_output("./hello")
+    testapp.chmod 0755
+    assert_equal "Hello World!\n", shell_output(testapp)
   end
 end
