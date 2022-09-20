@@ -25,3 +25,4 @@ jobs:
         with:
           labels: pr-pull
           number: ${{ steps.find-pull-request.outputs.number }}
+          github_token: ${{ secrets.ACTBOT_PAT }}
