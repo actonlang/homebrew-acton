@@ -1,5 +1,5 @@
 class Acton < Formula
-  desc "Delightful distributed programming language"
+  desc "Delightful distributed programming language for fault-tolerant systems"
   homepage "https://www.acton-lang.org"
   url "https://github.com/actonlang/acton/archive/refs/tags/v0.11.5.tar.gz"
   sha256 "a7f4bb269143fdb5480eb04ddb9d55e86a6a33b8eea5c24dcbd7fdd3a1f3dbdc"
