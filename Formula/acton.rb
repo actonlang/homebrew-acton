@@ -1,24 +1,19 @@
 class Acton < Formula
   desc "Delightful distributed programming language"
   homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.11.7.tar.gz"
-  sha256 "980db27886eb441b885e884a757fb9d1e772a227c1490bf95fe0625951075520"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.12.0.tar.gz"
+  sha256 "200fb4301d6def2f1d17fadfb8813dce3c7dac8ae608ad5609f143280cb3224a"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
 
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.11.7"
-    sha256 cellar: :any_skip_relocation, monterey:     "825770e5216d8364a2a36b67a8a4aebfc001715e7a0a2a37f2633287879cd77a"
-    sha256 cellar: :any_skip_relocation, big_sur:      "150a38b290f2f842b92f6ca8f202a65cc1a4d775115d6dded757a62dbd94ba79"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "a960c698d3c5a165329d95f5312426314fe7bc421248d53673d69b1d030dcfc5"
-  end
-
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
+  depends_on "gettext" => :build
   depends_on "ghc@8.10" => :build
   depends_on "haskell-stack" => :build
-  depends_on "libuv" => :build
+  depends_on "libtool" => :build
   depends_on "pkg-config" => :build
   depends_on "protobuf-c" => :build
-  depends_on "utf8proc" => :build
 
   on_macos do
     depends_on "argp-standalone" => :build
