@@ -1,16 +1,10 @@
 class Acton < Formula
   desc "Delightful distributed programming language"
   homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.13.0.tar.gz"
-  sha256 "c09d927acbde5c12f2d7cbd4a9f0efc01fd38f06297f8f7a38d7d6d5de9fdfba"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.13.1.tar.gz"
+  sha256 "9f223672f7e6bed95b0600773ca635c565574c57602d1aaf5c0ac1b584bad91e"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.13.0"
-    sha256 cellar: :any_skip_relocation, monterey:     "f1264b5477bb29f9cc6247b267dc16497448caf16bf5ec312967c8caa2f635f2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "afe5e426e604d5dd3cbd3884253bb064164fb2d1275820cd928b8420245b475a"
-  end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
@@ -20,10 +14,6 @@ class Acton < Formula
   depends_on "libtool" => :build
   depends_on "pkg-config" => :build
   depends_on "protobuf-c" => :build
-
-  on_macos do
-    depends_on "argp-standalone" => :build
-  end
 
   on_linux do
     depends_on "libbsd" => :build
