@@ -1,16 +1,14 @@
-name: test
+name: brew test-bot
 on:
   push:
     branches:
       - main
   pull_request:
-
 jobs:
-  build-bottles:
+  test-bot:
     strategy:
-      fail-fast: false
       matrix:
-        os: [macos-11, macos-12, ubuntu-20.04]
+        os: [macos-11, macos-12, macos-13, ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Homebrew
@@ -19,7 +17,7 @@ jobs:
 
       - name: Cache Homebrew Bundler RubyGems
         id: cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
           key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
