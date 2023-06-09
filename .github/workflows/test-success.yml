@@ -4,7 +4,7 @@
 name: Merge successfull test job PRs
 on:
   workflow_run:
-    workflows: ["test"]
+    workflows: ["brew test-bot"]
     types: [completed]
 
 jobs:
