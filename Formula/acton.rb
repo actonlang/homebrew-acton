@@ -6,6 +6,11 @@ class Acton < Formula
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.15.1"
+    sha256 cellar: :any_skip_relocation, ventura: "75e66ffc41adf39a2ace184d2b66ffabbec04e22db65f0826d63ddee87347b2c"
+  end
+
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "gettext" => :build
