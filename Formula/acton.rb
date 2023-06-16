@@ -6,6 +6,12 @@ class Acton < Formula
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.15.2"
+    sha256 cellar: :any_skip_relocation, ventura:  "09e2541ef6d3cfc474d57730749f66a0b83073e92b3af4d0a444a78f9e095581"
+    sha256 cellar: :any_skip_relocation, monterey: "9aaea2d77fbc8d84e7187bb7eb867e0310df104163b03c9be0b1a88ce3db8817"
+  end
+
   # TODO: can gettext be removed? it was likely necessary when we built deps
   # using autoconf, but might not be needed now that we use build.zig?
   depends_on "gettext" => :build
