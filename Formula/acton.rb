@@ -1,16 +1,10 @@
 class Acton < Formula
   desc "Delightful distributed programming language"
   homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.15.2.tar.gz"
-  sha256 "cc885025e9eeb20aad86bf8e28e9161a62934999feeb6bd8876488a77751269f"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.15.3.tar.gz"
+  sha256 "5b0281074504caaba2ac3d95d507ffdb1fad9d0ce27196fce375dfcf6205eeff"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.15.2"
-    sha256 cellar: :any_skip_relocation, ventura:  "09e2541ef6d3cfc474d57730749f66a0b83073e92b3af4d0a444a78f9e095581"
-    sha256 cellar: :any_skip_relocation, monterey: "9aaea2d77fbc8d84e7187bb7eb867e0310df104163b03c9be0b1a88ce3db8817"
-  end
 
   # TODO: can gettext be removed? it was likely necessary when we built deps
   # using autoconf, but might not be needed now that we use build.zig?
