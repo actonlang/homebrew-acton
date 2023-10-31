@@ -6,6 +6,13 @@ class Acton < Formula
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.18.2"
+    sha256 cellar: :any_skip_relocation, ventura:      "63b7fc3dd7e350216a809402d6fbca4c8c978a2123a050ee6dcd0acd5a6f2a0d"
+    sha256 cellar: :any_skip_relocation, monterey:     "5362d2bc0550c74f25a3db6fc8b09644f48abbacac3c91a2fe88c804bffc78f5"
+    sha256                               x86_64_linux: "a4626bf5deb147697e861072d8ad25f81899d516f079748098335f53037a1934"
+  end
+
   depends_on "ghc@9.4" => :build
   depends_on "haskell-stack" => :build
 
