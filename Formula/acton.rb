@@ -1,25 +1,23 @@
 class Acton < Formula
   desc "Delightful distributed programming language"
   homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.19.1.tar.gz"
-  sha256 "25edb7122b7f354f6e67172ee7bd26d7fe43ba3501f4e4e007435361314520de"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.19.2.tar.gz"
+  sha256 "8808d8277c36cf8b75b414c5704c001afa1e5477273f00b8758f8867e9f61600"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.19.1"
-    sha256 cellar: :any_skip_relocation, monterey: "f70c61619361da1dd7aa46d4aea9b8ea0e45c0e596fe1a071abcff6d1105a612"
-  end
 
   depends_on "ghc@9.4" => :build
   depends_on "haskell-stack" => :build
 
   def install
-    # Fix up stack config to not install project local GHC
+    # Fix up stack config to not install project local GHC and use system GHC
+    # which is idiomatic for Homebrew. Disable GHC version check as we want to
+    # allow for minor version mismatches.
     inreplace "compiler/stack.yaml", "# system-ghc: true", <<~EOS
       system-ghc: true
       install-ghc: false
       allow-newer: true
+      skip-ghc-check: true
     EOS
 
     ENV["BUILD_RELEASE"] = "1"
