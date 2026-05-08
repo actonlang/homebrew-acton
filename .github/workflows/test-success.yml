@@ -1,28 +1,47 @@
-# This workflow is triggered when the test workflow completes successfully, so
-# we can tack on the pr-pull label which in turn will trigger the publish
-# workflow.
-name: Merge successfull test job PRs
+name: Auto-label release PRs for pr-pull
+
 on:
   workflow_run:
     workflows: ["brew test-bot"]
     types: [completed]
 
+permissions:
+  contents: read
+
 jobs:
-  on-success:
+  add-pr-pull-label:
+    name: Add pr-pull to successful release PR
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      startsWith(github.event.workflow_run.head_branch, 'acton-v')
     steps:
-      - name: Find Pull Request
-        uses: juliangruber/find-pull-request-action@v1
-        id: find-pull-request
-        with:
-          branch: ${{ github.event.workflow_run.head_branch }}
-      - run: echo "Pull Request ${number} (${sha})"
+      - name: Add pr-pull label
         env:
-          number: ${{ steps.find-pull-request.outputs.number }}
-          sha: ${{ steps.find-pull-request.outputs.head-sha }}
-      - uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: pr-pull
-          number: ${{ steps.find-pull-request.outputs.number }}
-          github_token: ${{ secrets.ACTBOT_PAT }}
+          # A PAT is required because events created by GITHUB_TOKEN do not
+          # trigger the pull_request_target workflow that publishes bottles.
+          GH_TOKEN: ${{ secrets.ACTBOT_PAT }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+
+          pr_number="$(gh pr list \
+            --repo "$REPO" \
+            --state open \
+            --base main \
+            --head "$BRANCH" \
+            --json number,headRefOid \
+            --jq ".[] | select(.headRefOid == \"$HEAD_SHA\") | .number" \
+            | head -n 1)"
+
+          if [ -z "$pr_number" ]; then
+            echo "No open release PR found for $BRANCH at $HEAD_SHA"
+            exit 1
+          fi
+
+          echo "Adding pr-pull to PR $pr_number"
+          gh pr edit "$pr_number" --repo "$REPO" --add-label pr-pull
