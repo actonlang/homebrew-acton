@@ -5,16 +5,25 @@ on:
     types:
       - labeled
 
+permissions:
+  contents: write
+  packages: write
+  pull-requests: read
+
 jobs:
   pr-pull:
-    if: contains(github.event.pull_request.labels.*.name, 'pr-pull')
+    if: >-
+      contains(github.event.pull_request.labels.*.name, 'pr-pull') &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'acton-v')
     runs-on: ubuntu-latest
     steps:
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Set up git
-        uses: Homebrew/actions/git-user-config@master
+        uses: Homebrew/actions/git-user-config@main
 
       - name: Pull bottles
         env:
@@ -26,7 +35,7 @@ jobs:
         run: brew pr-pull --debug --tap="$GITHUB_REPOSITORY" "$PULL_REQUEST"
 
       - name: Push commits
-        uses: Homebrew/actions/git-try-push@master
+        uses: Homebrew/actions/git-try-push@main
         with:
           token: ${{ github.token }}
           branch: main
