@@ -26,7 +26,7 @@ class Acton < Formula
     bin.install_symlink "acton" => "actonc"
     bin.install "dist/bin/actondb"
     bin.install "dist/bin/runacton"
-    prefix.install Dir["dist/*"]
+    prefix.install Dir["dist/*"] - ["dist/bin"]
     bash_completion.install "completion/acton.bash-completion"
   end
 
