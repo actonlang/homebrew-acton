@@ -1,17 +1,12 @@
 class Acton < Formula
   desc "Delightful distributed programming language"
   homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.27.0.tar.gz"
-  sha256 "8f230f67349902cbd9a7fc78bef4fbf06fad6df62fb7a4f40e89591077db77fc"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.28.0.tar.gz"
+  sha256 "bb4e6570463de2590706ce52b7aad5ff633c5b2116bac12479443244430e9aae"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
 
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.27.0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "ae6d28deb6b7fc715b8dddcb80fa6d5fbabe04dee36c4f2d8971e93744fdaf0f"
-  end
-
-  depends_on "ghc@9.6" => :build
+  depends_on "ghc@9.8" => :build
   depends_on "haskell-stack" => :build
 
   def install
@@ -31,7 +26,7 @@ class Acton < Formula
     bin.install_symlink "acton" => "actonc"
     bin.install "dist/bin/actondb"
     bin.install "dist/bin/runacton"
-    prefix.install Dir["dist/*"] - ["dist/bin"]
+    prefix.install Dir["dist/*"]
     bash_completion.install "completion/acton.bash-completion"
   end
 
