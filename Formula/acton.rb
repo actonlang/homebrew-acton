@@ -20,13 +20,21 @@ class Acton < Formula
       skip-ghc-check: true
     EOS
 
+    inreplace "compiler/acton/Main.hs",
+              "then (\"DEVELOPER_DIR\", \"/dev/null\") : env0",
+              "then (\"DEVELOPER_DIR\", \"/dev/null\") : filter ((/= \"DEVELOPER_DIR\") . fst) env0"
+    inreplace "Makefile",
+              "dist/bin/actondb: export DEVELOPER_DIR := $(or $(DEVELOPER_DIR),/dev/null)",
+              "dist/bin/actondb: export DEVELOPER_DIR := /dev/null"
+
     ENV["BUILD_RELEASE"] = "1"
     system "make"
     bin.install "dist/bin/acton"
     bin.install_symlink "acton" => "actonc"
     bin.install "dist/bin/actondb"
     bin.install "dist/bin/runacton"
-    prefix.install Dir["dist/*"]
+    bin.install "dist/bin/lsp-server-acton"
+    prefix.install Dir["dist/*"] - ["dist/bin"]
     bash_completion.install "completion/acton.bash-completion"
   end
 
