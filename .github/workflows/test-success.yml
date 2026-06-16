@@ -44,4 +44,7 @@ jobs:
           fi
 
           echo "Adding pr-pull to PR $pr_number"
-          gh pr edit "$pr_number" --repo "$REPO" --add-label pr-pull
+          gh api \
+            --method POST \
+            "repos/$REPO/issues/$pr_number/labels" \
+            -f labels[]=pr-pull >/dev/null
