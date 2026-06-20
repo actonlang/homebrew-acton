@@ -1,15 +1,10 @@
 class Acton < Formula
   desc "Delightful distributed programming language"
-  homepage "https://www.acton-lang.org"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.28.0.tar.gz"
-  sha256 "bb4e6570463de2590706ce52b7aad5ff633c5b2116bac12479443244430e9aae"
+  homepage "https://acton.now/"
+  url "https://github.com/actonlang/acton/archive/refs/tags/v0.28.1.tar.gz"
+  sha256 "6f4096bad68fbd723d22b2140d7f0b01468926738d37673e2e093f3ebcaa6670"
   license "BSD-3-Clause"
   head "https://github.com/actonlang/acton.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.28.0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "d0d34cbcd4f141d8479ed1bd0837a15772ef74186800162de550d1fb4addcc4c"
-  end
 
   depends_on "ghc@9.8" => :build
   depends_on "haskell-stack" => :build
@@ -24,13 +19,6 @@ class Acton < Formula
       allow-newer: true
       skip-ghc-check: true
     EOS
-
-    inreplace "compiler/acton/Main.hs",
-              "then (\"DEVELOPER_DIR\", \"/dev/null\") : env0",
-              "then (\"DEVELOPER_DIR\", \"/dev/null\") : filter ((/= \"DEVELOPER_DIR\") . fst) env0"
-    inreplace "Makefile",
-              "dist/bin/actondb: export DEVELOPER_DIR := $(or $(DEVELOPER_DIR),/dev/null)",
-              "dist/bin/actondb: export DEVELOPER_DIR := /dev/null"
 
     ENV["BUILD_RELEASE"] = "1"
     system "make"
