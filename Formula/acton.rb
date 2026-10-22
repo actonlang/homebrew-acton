@@ -3,6 +3,14 @@ class Acton < Formula
   homepage "https://acton.now/"
   license "BSD-3-Clause"
 
+  bottle do
+    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.31.0"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:  "519815a3aceec01f6dfa0ee7790dfee8b767d9c203a15b577e6797a8709f3b3a"
+    sha256 cellar: :any_skip_relocation, tahoe:        "80ede721042880bc26b344c5618be8b2fce5925259563f6faa2c81e91d41b67d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "90480a6aeb5d9918a8fb0cee41692b30bd6c1508afd7a2276bb7e7b409293dff"
+  end
+
   head do
     url "https://github.com/actonlang/acton.git", branch: "main"
 
