@@ -38,6 +38,12 @@ jobs:
       - run: brew test-bot --only-formulae
         id: test-bot-formulae
         if: github.event_name == 'pull_request'
+        env:
+          # brew test stops the formula test after 5 minutes. The acton test
+          # builds a program, which also builds the base library and its C
+          # dependencies. On the macos-26-intel runner, that takes more than
+          # 5 minutes.
+          HOMEBREW_TEST_TIMEOUT_SECS: 1200
 
       # Each job uploads its own artifact. brew pr-pull downloads all artifacts
       # that match bottles{,_*}.
