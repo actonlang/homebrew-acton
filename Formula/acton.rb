@@ -1,42 +1,75 @@
 class Acton < Formula
   desc "Delightful distributed programming language"
   homepage "https://acton.now/"
-  url "https://github.com/actonlang/acton/archive/refs/tags/v0.31.0.tar.gz"
-  sha256 "b755e7daac977ae2451cc770edb44ccafcb06df5a36fafff8267f559cc118dac"
   license "BSD-3-Clause"
-  head "https://github.com/actonlang/acton.git", branch: "main"
 
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.31.0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "3474c2f5e0ab8dfe8e30fa032ebc078b853e42deafecd620d2633f2bbabc1b76"
+  head do
+    url "https://github.com/actonlang/acton.git", branch: "main"
+
+    depends_on "ghc@9.8" => :build
+    depends_on "haskell-stack" => :build
   end
 
-  depends_on "ghc@9.8" => :build
-  depends_on "haskell-stack" => :build
+  # Stable installs use the release tarballs that the actonlang/acton CI
+  # builds and tests, so users do not compile the Haskell compiler. The
+  # update-homebrew job in .github/workflows/test.yml sets the version and the
+  # sha256 values.
+  on_macos do
+    on_arm do
+      url "https://github.com/actonlang/acton/releases/download/v0.31.0/acton-macos-aarch64-0.31.0.tar.xz"
+      sha256 "5d62bf29bb360e3bca4f964ffbefe653719002c1c8d648d54e06957766691f4c"
+    end
+    on_intel do
+      url "https://github.com/actonlang/acton/releases/download/v0.31.0/acton-macos-x86_64-0.31.0.tar.xz"
+      sha256 "5ff87561ec57cab1b6453765f226551433a364ac04428c394b6c20c840ebc32f"
+    end
+  end
+
+  on_linux do
+    on_arm do
+      url "https://github.com/actonlang/acton/releases/download/v0.31.0/acton-linux-aarch64-0.31.0.tar.xz"
+      sha256 "506d0ba6febbe14832bdb9ba5551efd02f7e95cae1dcbc1901ec1b766f2edacd"
+    end
+    on_intel do
+      url "https://github.com/actonlang/acton/releases/download/v0.31.0/acton-linux-x86_64-0.31.0.tar.xz"
+      sha256 "988bd17f5cd766678cee4d56634daf23cdc5b97be195dac79836714515c61dcb"
+    end
+  end
 
   def install
-    # Fix up stack config to not install project local GHC and use system GHC
-    # which is idiomatic for Homebrew. Disable GHC version check as we want to
-    # allow for minor version mismatches.
-    inreplace "compiler/stack.yaml", "# system-ghc: true", <<~EOS
-      system-ghc: true
-      install-ghc: false
-      allow-newer: true
-      skip-ghc-check: true
-    EOS
+    if build.head?
+      # Fix up stack config to not install project local GHC and use system GHC
+      # which is idiomatic for Homebrew. Disable GHC version check as we want to
+      # allow for minor version mismatches.
+      inreplace "compiler/stack.yaml", "# system-ghc: true", <<~EOS
+        system-ghc: true
+        install-ghc: false
+        allow-newer: true
+        skip-ghc-check: true
+      EOS
 
-    ENV["BUILD_RELEASE"] = "1"
-    system "make"
-    bin.install "dist/bin/acton"
+      ENV["BUILD_RELEASE"] = "1"
+      system "make"
+      # make puts the same layout in dist/ as the release tarball has at its root
+      cd "dist"
+    end
+
+    bin.install "bin/acton"
     bin.install_symlink "acton" => "actonc"
-    bin.install "dist/bin/actondb"
-    bin.install "dist/bin/runacton"
-    bin.install "dist/bin/lsp-server-acton"
-    prefix.install Dir["dist/*"] - ["dist/bin"]
-    bash_completion.install "completion/acton.bash-completion"
+    bin.install "bin/actondb"
+    bin.install "bin/runacton"
+    bin.install "bin/lsp-server-acton"
+    prefix.install Dir["*"] - ["bin"]
+    generate_completions_from_executable(bin/"acton", "--bash-completion-script", opt_bin/"acton",
+                                         shells: [:bash], shell_parameter_format: :none)
   end
 
   test do
+    # On macOS, brew test puts the SDK include directory in CPATH. clang, which
+    # zig runs, then finds the SDK C headers before the libc++ headers, and the
+    # C++ files of snappy-c do not compile.
+    ENV.delete "CPATH"
+
     testapp = (testpath/"hello.act")
     testapp.write <<~EOS
       #!/usr/bin/env runacton
