@@ -3,14 +3,6 @@ class Acton < Formula
   homepage "https://acton.now/"
   license "BSD-3-Clause"
 
-  bottle do
-    root_url "https://github.com/actonlang/homebrew-acton/releases/download/acton-0.31.0"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:  "519815a3aceec01f6dfa0ee7790dfee8b767d9c203a15b577e6797a8709f3b3a"
-    sha256 cellar: :any_skip_relocation, tahoe:        "80ede721042880bc26b344c5618be8b2fce5925259563f6faa2c81e91d41b67d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "90480a6aeb5d9918a8fb0cee41692b30bd6c1508afd7a2276bb7e7b409293dff"
-  end
-
   head do
     url "https://github.com/actonlang/acton.git", branch: "main"
 
@@ -18,10 +10,10 @@ class Acton < Formula
     depends_on "haskell-stack" => :build
   end
 
-  # Stable installs use the release tarballs that the actonlang/acton CI
-  # builds and tests, so users do not compile the Haskell compiler. The
-  # update-homebrew job in .github/workflows/test.yml sets the version and the
-  # sha256 values.
+  # Stable installs use the release tarballs produced by actonlang/acton CI, to
+  # avoid rebuilding the Acton compiler itself (Haskell dep). The
+  # update-homebrew job sets the placeholder values before pushing to
+  # actonlang/homebrew-acton repo
   on_macos do
     on_arm do
       url "https://github.com/actonlang/acton/releases/download/v0.31.0/acton-macos-aarch64-0.31.0.tar.xz"
@@ -68,8 +60,10 @@ class Acton < Formula
     bin.install "bin/runacton"
     bin.install "bin/lsp-server-acton"
     prefix.install Dir["*"] - ["bin"]
-    generate_completions_from_executable(bin/"acton", "--bash-completion-script", opt_bin/"acton",
-                                         shells: [:bash], shell_parameter_format: :none)
+    [:bash, :zsh, :fish].each do |shell|
+      generate_completions_from_executable(bin/"acton", "--#{shell}-completion-script", opt_bin/"acton",
+                                           shells: [shell], shell_parameter_format: :none)
+    end
   end
 
   test do
